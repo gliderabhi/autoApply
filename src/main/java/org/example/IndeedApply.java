@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class IndeedApply {
+public class  IndeedApply {
 
     private static final Logger log = LoggerFactory.getLogger(IndeedApply.class);
 
@@ -21,7 +21,7 @@ public class IndeedApply {
         List<String> jobLists = List.of("system design engineer", "senior java developer", "senior android developer", "full stack developer", "software developer", "senior software developer");
         for (String job : jobLists) {
             ChromeOptions options = new ChromeOptions();
-            String userProfile = "/Users/abhisheksharma/Library/Application Support/Google/Chrome/";
+            String userProfile = "C:\\Users\\coolm\\AppData\\Local\\Google\\Chrome\\User Data";
             options.addArguments("user-data-dir=" + userProfile); // Set the user data directory
             options.addArguments("profile-directory=Profile 2"); // Specify the profile directory
 

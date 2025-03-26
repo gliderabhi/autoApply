@@ -16,31 +16,22 @@ public class HiristTest {
 
     private static final Logger log = LoggerFactory.getLogger(HiristTest.class);
 
-    public static void main(String[] args) {
-        List<String> jobLists = List.of("system design engineer", "senior java developer", "senior android developer", "full stack developer", "software developer", "senior software developer");
-        for (String job : jobLists) {
-            ChromeOptions options = new ChromeOptions();
-            ChromeDriver driver = new ChromeDriver(options);
-            driver.manage().window().maximize();
-            try {
-                // Step 1: Open the Google homepage
-                driver.get("https://www.hirist.com/");
-                login(driver);
-                Thread.sleep(3000);
-                searchJob(driver, job);
-                Thread.sleep(1000);
-                selectAllPossibleJobs(driver);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                driver.quit();
-            }
+    public static void applyHirist(WebDriver driver, String job, String location) {
+        try {
+            driver.get("https://www.hirist.com/");
+//                login(driver);
+            Thread.sleep(3000);
+            searchJob(driver, job, location);
+            Thread.sleep(1000);
+            selectAllPossibleJobs(driver);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     private static void selectAllPossibleJobs(WebDriver driver) throws InterruptedException {
         int i = 1;
-        while (i < 10) {
+        while (i < 3) {
             WebElement jobItem = driver.findElement(By.xpath("//*[@id=\"observer-div\"]/div/div[2]/div[2]/div[1]/div[2]/div[2]/a[" + i + "]/div/div[2]/div[1]/a"));
             jobItem.click();
             Set<String> windowHandles = driver.getWindowHandles();
@@ -72,7 +63,7 @@ public class HiristTest {
         }
     }
 
-    private static void searchJob(WebDriver driver, String jobSearchkey) throws InterruptedException {
+    private static void searchJob(WebDriver driver, String jobSearchkey,  String location) throws InterruptedException {
         Thread.sleep(2000);
         WebElement searchButton = driver.findElement(By.xpath("//*[@id=\"observer-div\"]/div/div[1]/div[1]/div[4]"));
         searchButton.click();
@@ -84,19 +75,28 @@ public class HiristTest {
         Thread.sleep(1000);
         experienceSelection(driver);
         Thread.sleep(1000);
-        locationSelection(driver);
+        locationSelection(driver,location);
         Thread.sleep(1000);
         WebElement searchButtonClick = driver.findElement(By.xpath("/html/body/div[3]/div/div/div/form[1]/button"));
         searchButtonClick.click();
         Thread.sleep(5000);
     }
 
-    private static void locationSelection(WebDriver driver) {
+    private static void locationSelection(WebDriver driver, String location) {
         WebElement locationDropDown = driver.findElement(By.xpath("/html/body/div[3]/div/div/div/form[1]/div[4]/div[1]/div[2]/a[2]"));
         locationDropDown.click();
+        try {
+            WebElement inputLocation = driver.findElement(By.xpath("/html/body/div[3]/div/div/div/form[1]/div[4]/div[2]/div[2]/div[1]/input"));
+            inputLocation.clear();
+            Thread.sleep(1000);
+            inputLocation.sendKeys(location);
+            Thread.sleep(1000);
+            WebElement locationSelection = driver.findElement(By.xpath("/html/body/div[3]/div/div/div/form[1]/div[4]/div[2]/div[2]/div[2]/div/label"));
+            Thread.sleep(1000);
+            locationSelection.click();
+        } catch (Exception e) {
 
-        WebElement delhiSelection = driver.findElement(By.xpath("/html/body/div[3]/div/div/div/form[1]/div[4]/div[2]/div[2]/div[2]/div[4]/label"));
-        delhiSelection.click();
+        }
     }
 
     private static void experienceSelection(WebDriver driver) {
