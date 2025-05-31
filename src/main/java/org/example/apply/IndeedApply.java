@@ -1,35 +1,24 @@
-package org.example;
+package org.example.apply;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 public class  IndeedApply {
 
     private static final Logger log = LoggerFactory.getLogger(IndeedApply.class);
 
-    public static void main(String[] args) {
-        List<String> jobLists = List.of("system design engineer", "senior java developer", "senior android developer", "full stack developer", "software developer", "senior software developer");
-        for (String job : jobLists) {
-            ChromeOptions options = new ChromeOptions();
-            String userProfile = "C:\\Users\\coolm\\AppData\\Local\\Google\\Chrome\\User Data";
-            options.addArguments("user-data-dir=" + userProfile); // Set the user data directory
-            options.addArguments("profile-directory=Profile 2"); // Specify the profile directory
-
-            ChromeDriver driver = new ChromeDriver(options);
+    public static void applyHirist(WebDriver driver, String job, String location) {
             driver.manage().window().maximize();
             try {
                 // Step 1: Open the Google homepage
-                driver.get("https://www.glassdoor.co.uk/index.htm");
+                driver.get("https://www.glassdoor.co.in/index.htm");
                 driver.manage().window().maximize();
 //            driver.manage().deleteAllCookies();
                 login(driver);
@@ -39,15 +28,12 @@ public class  IndeedApply {
 //                selectAllPossibleJobs(driver);
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-//                driver.quit();
             }
-        }
     }
 
-    private static void searchJob(ChromeDriver driver, String job) throws InterruptedException {
+    private static void searchJob(WebDriver driver, String job) throws InterruptedException {
 
-        WebElement jobsTab = driver.findElement(By.xpath("//*[@id=\"ContentNav\"]/li[2]/a"));
+        WebElement jobsTab = driver.findElement(By.xpath("//*[@id=\"InlineLoginModule\"]/div/div[1]/div/div/div/div/div[1]/div/div[1]/div/button"));
         jobsTab.click();
 
         Thread.sleep(1000);
@@ -91,7 +77,7 @@ public class  IndeedApply {
         }
     }
 
-    private static void login(ChromeDriver driver) {
+    private static void login(WebDriver driver) {
         try {
             Thread.sleep(1000);
             WebElement signIn = driver.findElement(By.xpath("//*[@id=\"InlineLoginModule\"]/div/div[1]/div/div/div/div/div[2]/div/div[1]/div/button"));
@@ -116,7 +102,7 @@ public class  IndeedApply {
         }
     }
 
-    private static void switchWindow(ChromeDriver driver) {
+    private static void switchWindow(WebDriver driver) {
         Set<String> windowHandles = driver.getWindowHandles();
         log.info("Window Handles: {}", windowHandles);
 

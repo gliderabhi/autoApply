@@ -1,14 +1,11 @@
-package org.example;
+package org.example.apply;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 public class HiristTest {
@@ -19,7 +16,7 @@ public class HiristTest {
     public static void applyHirist(WebDriver driver, String job, String location) {
         try {
             driver.get("https://www.hirist.com/");
-//                login(driver);
+            login(driver);
             Thread.sleep(3000);
             searchJob(driver, job, location);
             Thread.sleep(1000);
@@ -31,7 +28,7 @@ public class HiristTest {
 
     private static void selectAllPossibleJobs(WebDriver driver) throws InterruptedException {
         int i = 1;
-        while (i < 3) {
+        while (i < 30) {
             WebElement jobItem = driver.findElement(By.xpath("//*[@id=\"observer-div\"]/div/div[2]/div[2]/div[1]/div[2]/div[2]/a[" + i + "]/div/div[2]/div[1]/a"));
             jobItem.click();
             Set<String> windowHandles = driver.getWindowHandles();
@@ -119,11 +116,11 @@ public class HiristTest {
         Thread.sleep(1000);
 
         WebElement usernameField = driver.findElement(By.xpath("//*[@id=\"login-email-input\"]"));
-        usernameField.sendKeys("abhishekh.ksharma.civ15@itbhu.ac.in");
+        usernameField.sendKeys("");
 
 
         WebElement passwordField = driver.findElement(By.xpath("//*[@id=\"loginPassword\"]"));
-        passwordField.sendKeys("qWer@2274");
+        passwordField.sendKeys("");
 
 
         WebElement login = driver.findElement(By.xpath("//*[@id=\"loginSubmit\"]"));
