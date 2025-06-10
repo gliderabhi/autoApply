@@ -4,30 +4,30 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class StartApplying {
     public static void main(String[] args) {
-        List<String> jobLists = List.of("senior java developer", "senior software developer", "full stack developer", "software developer");
-        List<String> locationList = List.of("Remote", "Delhi", "Kolkata");
-        for (String job : jobLists) {
-            for (String location : locationList) {
-                WebDriver driver = enterProfileChrome();
-                HiristTest.applyHirist(driver, job, location);
-                driver.quit();
-            }
-        }
-
-        WebDriver driver = enterProfileChrome();
-        IndeedApply.applyHirist(driver, "senior java developer", "remote");
         try {
-            Thread.sleep(10000);
+            List<String> jobLists = List.of("senior java developer");
+            List<String> locationList = List.of("Remote");
+            for (String job : jobLists) {
+                for (String location : locationList) {
+                    WebDriver driver = enterProfileChrome();
+                    HiristTest.applyHirist(driver, job, location);
+//                    LinkedinApply.apply(driver, job, location);
+//                GlassdoorApply.apply(driver, job, location);
+                    driver.quit();
+                }
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        driver.quit();
+
     }
 
     private static WebDriver enterProfileChrome() {

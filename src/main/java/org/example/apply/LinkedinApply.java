@@ -6,9 +6,12 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -20,7 +23,7 @@ public class LinkedinApply {
     public static void apply(WebDriver driver, String job, String location) {
         try {
             // Step 1: Open the Google homepage
-            driver.get("https://www.linkedin.com/notifications/?filter=all");
+            driver.get("https://www.linkedin.com");
             driver.manage().window().maximize();
             driver.manage().deleteAllCookies();
             login(driver);
@@ -84,22 +87,34 @@ public class LinkedinApply {
 
     private static void login(WebDriver driver) {
         try {
-            Thread.sleep(2000);
-            WebElement emailInput = driver.findElement(By.xpath("//*[@id=\"username\"]"));
+//            WebElement signNowBtn  = driver.findElement(By.xpath("/html/body/nav/div/a[2]"));
+//            signNowBtn.click();
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+            WebElement googleLog = wait.until(
+                    ExpectedConditions.elementToBeClickable(By.xpath("/html/body/main/section[1]/div/div/a"))
+            );
+            googleLog.click();
+
+            WebElement emailInput = wait.until(
+                    ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div/main/div[2]/div[1]/form/div[1]/input"))
+            );
             emailInput.sendKeys("abhishekh.ksharma.civ15@itbhu.ac.in");
 
-            Thread.sleep(200);
-            WebElement passwordInput = driver.findElement(By.xpath("//*[@id=\"password\"]"));
+            WebElement passwordInput = wait.until(
+                    ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div/main/div[2]/div[1]/form/div[2]/input"))
+            );
             passwordInput.sendKeys("Digio60@2274");
 
-            Thread.sleep(200);
+            Thread.sleep(4000);
+            WebElement button = wait.until(
+                    ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"organic-div\"]/form/div[4]/button"))
+            );
+            button.click();
 
-            WebElement continueLogin = driver.findElement(By.xpath("//*[@id=\"organic-div\"]/form/div[4]/button"));
-            continueLogin.click();
-
-            Thread.sleep(1000);
         } catch (Exception e) {
             //do nothing
+            e.printStackTrace();
         }
     }
 
@@ -117,119 +132,6 @@ public class LinkedinApply {
         String secondWindowHandle = iterator.next();
         driver.switchTo().window(secondWindowHandle);
         log.info("Switched to the second window");
-    }
-
-    public static void main(String[] args) {
-        // Set up ChromeDriver
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-
-        // Open Naukri.com
-        driver.get("https://www.naukri.com/");
-
-        // Maximize the window
-        driver.manage().window().maximize();
-
-        // Close any pop-ups if present
-        try {
-            WebElement closeButton = driver.findElement(By.xpath("//button[contains(text(),'X')]"));
-            closeButton.click();
-        } catch (Exception e) {
-            // No pop-up appeared
-        }
-
-        // Wait for the page to load
-        try {
-            Thread.sleep(5000); // Wait for 5 seconds
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // Click on the 'Jobs' section
-        WebElement jobsTab = driver.findElement(By.xpath("//a[@title='Jobs']"));
-        jobsTab.click();
-
-        // Wait for the job listings to load
-        try {
-            Thread.sleep(3000); // Wait for 3 seconds
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // Search for jobs with desired keywords
-        WebElement searchBox = driver.findElement(By.id("qsb-keyskill-sugg"));
-        searchBox.sendKeys("Java Developer");
-
-        // Set location (optional)
-        WebElement locationBox = driver.findElement(By.id("qsb-location-sugg"));
-        locationBox.sendKeys("India");
-
-        // Click on the 'Search' button
-        WebElement searchButton = driver.findElement(By.xpath("//button[@type='submit']"));
-        searchButton.click();
-
-        // Wait for search results to load
-        try {
-            Thread.sleep(5000); // Wait for 5 seconds
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // Apply filters if needed (e.g., experience, salary)
-        // Example: Filter by experience
-        WebElement experienceFilter = driver.findElement(By.xpath("//label[contains(text(),'2-5 Yrs')]"));
-        experienceFilter.click();
-
-        // Wait for filtered results
-        try {
-            Thread.sleep(3000); // Wait for 3 seconds
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // Iterate through job listings and apply
-        List<WebElement> jobListings = driver.findElements(By.xpath("//article[@class='jobTuple']"));
-        for (WebElement job : jobListings) {
-            try {
-                // Click on the job title to open the job details
-                WebElement jobTitle = job.findElement(By.xpath(".//a[@class='title fw500 ellipsis']"));
-                jobTitle.click();
-
-                // Wait for job details page to load
-                Thread.sleep(3000);
-
-                // Click on the 'Apply' button
-                WebElement applyButton = driver.findElement(By.xpath("//button[contains(text(),'Apply')]"));
-                applyButton.click();
-
-                // Wait for application modal to appear
-                Thread.sleep(2000);
-
-                // Fill in application details if required
-                // Example: Upload resume
-                WebElement uploadResumeButton = driver.findElement(By.xpath("//input[@type='file']"));
-                uploadResumeButton.sendKeys("path/to/your/resume.pdf");
-
-                // Submit the application
-                WebElement submitButton = driver.findElement(By.xpath("//button[contains(text(),'Submit')]"));
-                submitButton.click();
-
-                // Wait for confirmation
-                Thread.sleep(2000);
-
-                // Navigate back to the search results
-                driver.navigate().back();
-
-                // Wait for the page to load
-                Thread.sleep(3000);
-            } catch (Exception e) {
-                // Handle exceptions (e.g., element not found)
-                e.printStackTrace();
-            }
-        }
-
-        // Close the browser
-        driver.quit();
     }
 
 }
