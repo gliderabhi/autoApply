@@ -1,9 +1,7 @@
 package org.example.apply;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -71,6 +69,7 @@ public class HiristTest {
                 i++;
             } catch (Exception e) {
                 e.printStackTrace();
+                scroll(driver);
             }
         }
     }
@@ -164,6 +163,17 @@ public class HiristTest {
         );
         searchButtonClick.click();
         Thread.sleep(2000);
+    }
+
+    private static void scroll(WebDriver driver) {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0, 400);");
+            Thread.sleep(1000);
+            js.executeScript("window.scrollBy(0, -600);");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void locationSelection(WebDriverWait driverWait, String location) {
