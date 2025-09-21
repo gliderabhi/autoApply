@@ -32,7 +32,8 @@ public class HiristTest {
         while (i < 30) {
             try {
                 WebElement jobItem = driverWait.until(
-                        ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"__next\"]/div[3]/div/div[2]/div[1]/div/div[2]/div[2]/div/div[" + i + "]/div/div[2]/div"))
+                        ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div/div[3]/div[2]/div[2]/div[1]/div/div[3]/div[2]/div/div[" + i + "]/div/div[2]/div"))
+//                        ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"__next\"]/div[3]/div/div[2]/div[1]/div/div[2]/div[2]/div/div[" + i + "]/div/div[2]/div"))
                 );
                 jobItem.click();
                 Set<String> windowHandles = driver.getWindowHandles();
@@ -53,9 +54,7 @@ public class HiristTest {
 
                 Thread.sleep(1000);
                 try {
-                    WebElement apply = driverWait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div/div[3]/div[2]/div[2]/div[1]/div[1]/div[2]/div/button[1]")));
-                    apply.click();
-                    WebElement apply2 = driverWait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div/div[3]/div[2]/div[2]/div[1]/div[1]/div[3]/div/button[1]")));
+                    WebElement apply2 = driverWait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div/div[3]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div/button[1]")));
                     apply2.click();
                 } catch (Exception e) {
                     e.printStackTrace();
